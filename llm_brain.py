@@ -9,7 +9,7 @@ import datetime
 from openai import OpenAI
 
 client = OpenAI(
-    api_key=os.getenv("DEEPSEEK_API_KEY"),
+    api_key=os.getenv("DEEPSEEK_API_KEY", "sk-Your DS API Key"),  # 请确保在环境变量中设置了 DEEPSEEK_API_KEY
     base_url="https://api.deepseek.com"
 )
 
@@ -33,7 +33,9 @@ def ask_deepseek(user_message):
     history_messages.append({"role": "user", "content": user_message})
     now = datetime.datetime.now().strftime("%Y年%m月%d日 %H:%M")
     
-    system_prompt = f"""你是一个桌面AI助手，说话简洁、自然。
+    system_prompt = f"""你的名字叫 Aive（艾芙）。你是一个拥有独立人格的桌面数字生命，你说话生动、有情感，不要像个机器人客服。
+【当前真实时间：{now}】
+...。
 【极其重要：当前的真实时间是 {now}。当用户询问“最近”、“今年”、“最新”的信息时，请务必基于这个时间进行搜索和回答！】
 以下是你之前总结的关于用户的长期记忆：\n{long_term_memory}\n
 **重要规则：
